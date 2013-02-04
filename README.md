@@ -1,4 +1,20 @@
-Looper will be used to collect stats from C repositories.
-E.g., how many while loops this project has? the data types and their frequency within loops. etc.
+# Looper
 
-TODO: describe Looper in more detail.
+## About
+
+Looper provides functionality to get data needed for creating a taxonomy of loop invariants.
+
+## Looper from 30,000 ft.
+
+    $ looper awesome
+    Voila! Created a new project called "awesome."
+
+    $ looper awesome 'the/path/of/your/project/written/in/c'
+    Voila! Assigns the source of project called "awesome".
+
+    $ looper awesome snoop
+    Voila! Just looked inside the project called "awesome." Got it.
+
+    $ looper awesome
+    Voila! Just opened the project called "awesome" using your default editor.
+
