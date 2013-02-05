@@ -50,7 +50,7 @@ Gem::Specification.new do |s|
   ## that are needed for an end user to actually USE your code.
   s.add_dependency('multi_json', "~> 1.0.3")
   s.add_dependency('json_pure', "~> 1.5.3")
-  s.add_dependency('json_pure', "~> 1.5.3")
+  s.add_dependency('cast')
 
   ## List your development dependencies here. Development dependencies are
   ## those that are only needed during development

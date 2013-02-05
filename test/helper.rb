@@ -9,7 +9,7 @@ rescue LoadError
   # Oops! We tried.
 end
 
-require 'mocha'
+require 'mocha/setup'
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
