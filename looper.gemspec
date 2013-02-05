@@ -48,14 +48,14 @@ Gem::Specification.new do |s|
 
   ## List your runtime dependencies here. Runtime dependencies are those
   ## that are needed for an end user to actually USE your code.
-  s.add_dependency('multi_json', "~> 1.0.3")
-  s.add_dependency('json_pure', "~> 1.5.3")
+  s.add_dependency('multi_json', "~> 1.5.0")
+  s.add_dependency('json_pure', "~> 1.7.6")
   s.add_dependency('cast')
 
   ## List your development dependencies here. Development dependencies are
   ## those that are only needed during development
-  s.add_development_dependency('mocha', "~> 0.9.9")
-  s.add_development_dependency('rake', "~> 0.9.2")
+  s.add_development_dependency('mocha', "~> 0.13.2")
+  s.add_development_dependency('rake', "~> 10.0.3")
 
   ## Leave this section as-is. It will be automatically generated from the
   ## contents of your Git repository via the gemspec task. DO NOT REMOVE
