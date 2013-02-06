@@ -50,7 +50,7 @@ module Looper
     # name - String name of the list to delete
     #
     # Returns whether one or more lists where removed.
-    def delete(name)
+    def self.delete(name)
       previous = storage.lists.size
       storage.lists = storage.lists.reject { |list| list.name == name }
       previous != storage.lists.size
