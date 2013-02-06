@@ -9,7 +9,6 @@
 # Looper::Command#save.
 #
 
-# TODO(Huascar) finish this whole thing
 module Looper
   class Command
     class << self
@@ -61,12 +60,7 @@ module Looper
                 items << Item.new(stmt.name, stmt.type)
               end
             end
-
-
           end
-
-
-
         end
       end
 
@@ -128,6 +122,8 @@ module Looper
         puts(s)
       end
 
+
+
       # Public: gets $stdin.
       #
       # Returns the $stdin object. This method exists to help with easy mocking
@@ -156,77 +152,103 @@ module Looper
         end
       end
 
+
+      # Public: prints a tidy overview of your Projects in descending order of
+      # number of Items.
+      #
+      # Returns nothing.
       def overview
         storage.lists.each do |list|
           output "  #{list.name} (#{list.items.size})"
         end
 
-        s =  "You don't have anything yet! To start out, create a new list:"
-        s << "\n  $ looper <list-name>"
-        s << "\nAnd then add something to your list!"
-        s << "\n  $ looper <list-name> <item-name> <item-value>"
-        s << "\nYou can then grab your new item:"
-        s << "\n  $ looper <item-name>"
+        s =  "You don't have anything yet! To start out, create a new project:"
+        s << "\n  $ looper <project-name>"
+        s << "\nAnd then assigns a new source to your project!"
+        s << "\n  $ looper <project-name> src <value>"
+        s << "\nYou can then take a peek at project:"
+        s << "\n  $ looper <project-name> peek"
         output s if storage.lists.size == 0
       end
 
-      # Public: save in-memory data to disk.
+      # Public: search for an Item in a particular project by name. Drops the
+      # corresponding entry into your clipboard if found.
       #
-      # Returns whether or not data was saved.
-      def save
-        storage.save
-      end
-
-      # Public: the version of boom that you're currently running.
+      # project_name - the String name of the project in which to scope the search
+      # item_name    - the String term to search for in all Item names
       #
-      # Returns a String identifying the version number.
-      def version
-        output "You're running boom #{Looper::VERSION}. Congratulations!"
-      end
+      # Returns the matching Item if found.
+      def search_project_for_item(project_name, item_name)
+        list = Project.find(project_name)
+        item = list.find_item(item_name)
 
-
-      # Public: launches JSON file in an editor for you to edit manually.
-      #
-      # Returns nothing.
-      def edit
-        if storage.respond_to?("json_file")
-          output "#{cyan("Looper!")} #{Platform.edit(storage.json_file)}"
+        if item
+          output "#{cyan("Looper!")} We just copied #{yellow(Platform.copy(item))} to your clipboard."
         else
-          output "This storage backend does not store #{cyan("Looper!")} data on your computer"
+          output "#{yellow(item_name)} #{red("not found in")} #{yellow(list_name)}"
         end
-      end
 
-      # Public: prints all the commands of looper.
-      #
-      # Returns nothing.
-      def help
-        text = %{
+        # Public: save in-memory data to disk.
+        #
+        # Returns whether or not data was saved.
+        def save
+          storage.save
+        end
+
+
+        # Public: the version of looper that you're currently running.
+        #
+        # Returns a String identifying the version number.
+        def version
+          output "You're running looper #{Looper::VERSION}. Congratulations!"
+        end
+
+
+        # Public: launches JSON file in an editor for you to edit manually.
+        #
+        # Returns nothing.
+        def edit
+          if storage.respond_to?("json_file")
+            output "#{cyan("Looper!")} #{Platform.edit(storage.json_file)}"
+          else
+            output "This storage backend does not store #{cyan("Looper!")} data on your computer"
+          end
+        end
+
+
+        # Public: prints all the commands of looper.
+        #
+        # Returns nothing.
+        def help
+          text = %{
           - looper: help ---------------------------------------------------
 
-          looper                          ;display high-level overview
-          looper all                      ;show all items in all lists
-          looper edit                     ;edit the looper JSON file in $EDITOR
-          looper help                     ;this help text
-          looper storage                  ;shows which storage backend you're using
+          looper                            ;display high-level overview
+          looper all                        ;show all items in all lists
+          looper edit                       ;edit the looper JSON file in $EDITOR
+          looper help                       ;this help text
+          looper storage                    ;shows which storage backend you're using
 
-          looper <list>                   ;create a new list
-          looper <list>                   ;show items for a list
-          looper <list> delete            ;deletes a list
+          looper <project>                  ;create a new project
+          looper <project>                  ;show items for a project
+          looper <project> delete           ;deletes a project
+          looper <project> src <value>      ;assigns a new source for a project
+          looper <project> peek             ;take a peek at project
 
-          looper snoop <directory> <list> ;look around while crawling directory
-          looper open <name>              ;open item's url in browser
-          looper open <list> <name>       ;open all item's url in browser for a list
-          looper echo <name>              ;echo the item's value without copying
-          looper echo <list> <name>       ;echo the item's value without copying
-          looper <list> <name> delete     ;deletes an item
+          looper <project> <name> open      ;open all item's content in in $EDITOR for a project
+          looper <project> <name> delete    ;deletes an item in a project
+          looper <project> <name>           ;copy item's value to clipboard
 
           all other documentation is located at:
             https://github.com/hsanchez/looper
         }.gsub(/^ {8}/, '') # strip the first eight spaces of every line
-      end
 
+          output text
+
+        end
 
 
     end
   end
+end
 end
