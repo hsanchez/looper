@@ -9,10 +9,10 @@ Looper provides functionality to get data needed for creating a taxonomy of loop
     $ looper awesome
     Voila! Created a new project called "awesome."
 
-    $ looper awesome 'the/path/of/your/project/written/in/c'
+    $ looper awesome src 'the/path/of/your/project/written/in/c'
     Voila! Assigns the source of project called "awesome".
 
-    $ looper awesome snoop
+    $ looper awesome peek
     Voila! Just looked inside the project called "awesome." Got it.
 
     $ looper awesome
