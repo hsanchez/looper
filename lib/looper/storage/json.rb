@@ -36,7 +36,7 @@ module Looper
 
         storage['lists'].each do |lists|
           lists.each do |list_name, items|
-            @lists << list = List.new(list_name)
+            @lists << list = Project.new(list_name)
 
             items.each do |item|
               item.each do |name,value|
@@ -56,7 +56,7 @@ module Looper
         File.open(json_file, 'w') {|f| f.write(to_json) }
       end
 
-      # Public: the Json representation of the current List and Item assortment
+      # Public: the Json representation of the current Project and Item assortment
       # attached to the Storage instance.
       #
       # Returns a String Json representation of its Lists and their Items.

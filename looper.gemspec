@@ -72,7 +72,7 @@ Gem::Specification.new do |s|
     lib/looper/config.rb
     lib/looper/core_ext/symbol.rb
     lib/looper/item.rb
-    lib/looper/list.rb
+    lib/looper/project.rb
     lib/looper/platform.rb
     lib/looper/storage.rb
     lib/looper/storage/base.rb

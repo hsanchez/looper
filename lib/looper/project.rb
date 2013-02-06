@@ -1,9 +1,9 @@
-# The List contains many Items. They exist as buckets in which to categorize
+# The Project contains many Items. They exist as buckets in which to categorize
 # individual Items. The relationship is maintained in a simple array on the
-# List-level.
+# Project-level.
 #
 module Looper
-  class List
+  class Project
     def initialize(name)
       @items = []
       @name  = name
@@ -16,19 +16,19 @@ module Looper
       Looper.storage
     end
 
-    # Public: lets you access the array of items contained within this List.
+    # Public: lets you access the array of items contained within this Project.
     #
     # Returns an Array of Items.
     attr_accessor :items
-    # Public: the name of the List.
+    # Public: the name of the Project.
     #
     # Returns the String name.
     attr_accessor :name
 
-    # Public: associates an Item with this List.  If the item name is already
+    # Public: associates an Item with this Project.  If the item name is already
     # defined, then the value will be replaced
     #
-    # item - the Item object to associate with this List.
+    # item - the Item object to associate with this Project.
     #
     # Returns the current set of items.
     def add_item(item)
@@ -36,11 +36,11 @@ module Looper
       @items << item
     end
 
-    # Public: finds any given List by name.
+    # Public: finds any given Project by name.
     #
     # name - String name of the list to search for
     #
-    # Returns the first instance of List that it finds.
+    # Returns the first instance of Project that it finds.
     def self.find(name)
       storage.lists.find { |list| list.name == name }
     end

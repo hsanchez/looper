@@ -84,9 +84,9 @@ module Looper
         end
       end
 
-      # Public: add a new List.
+      # Public: add a new Project.
       #
-      # name  - the String name of the List.
+      # name  - the String name of the Project.
       # item  - the String name of the Item
       # value - the String value of Item
       #
@@ -95,9 +95,9 @@ module Looper
       #   Commands.list_create("snippets")
       #   Commands.list_create("hotness", "item", "value")
       #
-      # Returns the newly created List and creates an item when asked.
+      # Returns the newly created Project and creates an item when asked.
       def create_list(name, item = nil, value = nil)
-        lists = (storage.lists << List.new(name))
+        lists = (storage.lists << Project.new(name))
         storage.lists = lists
         output "#{cyan("Looper!")} Created a new list called #{yellow(name)}."
         save
@@ -150,7 +150,7 @@ module Looper
         return echo(major,minor) if command == 'echo' || command == 'e'
         return open(major,minor) if command == 'open' || command == 'o'
 
-        # if we're operating on a List
+        # if we're operating on a Project
         if storage.list_exists?(command)
 
         end

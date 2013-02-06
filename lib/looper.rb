@@ -18,7 +18,7 @@ require 'looper/platform'
 require 'looper/command'
 require 'looper/config'
 require 'looper/item'
-require 'looper/list'
+require 'looper/project'
 
 require 'looper/storage'
 require 'looper/storage/base'

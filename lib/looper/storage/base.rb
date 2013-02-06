@@ -29,7 +29,7 @@ module Looper
       # Public: the in-memory collection of all Lists attached to this Storage
       # instance.
       #
-      # lists - an Array of individual List items
+      # lists - an Array of individual Project items
       #
       # Returns nothing.
       attr_writer :lists
@@ -37,14 +37,14 @@ module Looper
       # Public: the list of Lists in your JSON data, sorted by number of items
       # descending.
       #
-      # Returns an Array of List objects.
+      # Returns an Array of Project objects.
       def lists
         @lists.sort_by { |list| -list.items.size }
       end
 
-      # Public: tests whether a named List exists.
+      # Public: tests whether a named Project exists.
       #
-      # name - the String name of a List
+      # name - the String name of a Project
       #
       # Returns true if found, false if not.
       def list_exists?(name)
@@ -68,7 +68,7 @@ module Looper
       end
 
       # Public: creates a Hash of the representation of the in-memory data
-      # structure. This percolates down to Items by calling to_hash on the List,
+      # structure. This percolates down to Items by calling to_hash on the Project,
       # which in tern calls to_hash on individual Items.
       #
       # Returns a Hash of the entire data set.

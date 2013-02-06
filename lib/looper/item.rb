@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # The representation of the base unit in looper. An Item contains just a name and
-# a value. It doesn't know its parent relationship explicitly; the parent List
+# a value. It doesn't know its parent relationship explicitly; the parent Project
 # object instead knows which Items it contains.
 #
 module Boom
