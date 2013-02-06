@@ -18,6 +18,7 @@ require 'looper/platform'
 require 'looper/command'
 require 'looper/config'
 require 'looper/item'
+require 'looper/result'
 require 'looper/project'
 
 require 'looper/storage'
