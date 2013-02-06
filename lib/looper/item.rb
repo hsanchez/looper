@@ -4,7 +4,7 @@
 # a value. It doesn't know its parent relationship explicitly; the parent Project
 # object instead knows which Items it contains.
 #
-module Boom
+module Looper
   class Item
 
     # Public: the String name of the Item
