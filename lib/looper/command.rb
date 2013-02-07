@@ -162,7 +162,7 @@ module Looper
       def create_list(name, item = nil, value = nil)
         lists = (storage.lists << Project.new(name))
         storage.lists = lists
-        output "#{cyan("Looper!")} Created a new list called #{yellow(name)}."
+        output "#{cyan("Looper!")} Created a new project called #{yellow(name)}."
         save
         add_item(name, item, value) unless value.nil?
       end
@@ -185,9 +185,6 @@ module Looper
         output "#{cyan("Looper!")} #{yellow(name)} in #{yellow(project.name)} is #{yellow(value)}. Got it."
         save
       end
-
-
-
 
       # Public: prints any given string.
       #
@@ -231,8 +228,6 @@ module Looper
         return show_storage      if command == 'storage'
         return version           if command == "-v"
         return version           if command == "--version"
-        # TODO to fix this error: NameError: undefined local variable or method `help' for Looper::Command:Class.
-        # the method is defined, so I dont know what is happening.
         return help              if command == 'help'
         return help              if command[0] == 45 || command[0] == '-' # any - dash options are pleas for help
 
@@ -244,6 +239,7 @@ module Looper
           return delete_project(command) if major == 'delete'
           return detail_project(command) unless major
           unless minor == 'delete'
+            return add_item(command, major, minor) if major == 'src' and minor
             return search_project_for_item(command,major)
           end
         end

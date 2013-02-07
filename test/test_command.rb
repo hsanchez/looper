@@ -86,8 +86,11 @@ class TestCommand < Test::Unit::TestCase
   end
 
   def test_project_creation
-    assert_match /a new list called newproject/, command('newproject')
+    assert_match /a new project called newproject/, command('newproject')
   end
 
+  def test_project_assigns_source
+    assert_match /a new project called newproject.* src in newproject/, command('newproject src blah/blah')
+  end
 
 end
