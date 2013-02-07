@@ -23,6 +23,9 @@ class Looper::Command
 end
 
 class TestCommand < Test::Unit::TestCase
+
+  C_DIR      =  "#{File.expand_path(File.dirname(__FILE__))}/examples"
+
   def setup
     looper_json :urls
   end
@@ -91,6 +94,11 @@ class TestCommand < Test::Unit::TestCase
 
   def test_project_assigns_source
     assert_match /a new project called newproject.* src in newproject/, command('newproject src blah/blah')
+  end
+
+  def test_project_peek_nothing_to_report
+    command("newproject src #{C_DIR}")
+    assert_match /couldn't find anything to report for newproject.*/, command('newproject peek')
   end
 
 end

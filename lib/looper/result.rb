@@ -27,8 +27,7 @@ module Looper
 
     def find_stuff(name)
       stuff.find do |item|
-        item.name == name ||
-            item.short_name.gsub('...', '') == name.gsub('...', '')
+        item.name == name
       end
     end
 

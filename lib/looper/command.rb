@@ -45,7 +45,7 @@ module Looper
       # ext    - file extension
       #
       # Returns an array of items to be added to a list
-      def find(dir, ext = ".c")
+      def find(dir, ext = "c")
         files = []
 
         # copy file and path to array if filename ends in ext. e.g., ".c"
@@ -79,24 +79,39 @@ module Looper
           source    = File.read(file)
           ast       = C.parse(source)
 
-          ast.entities.each do |declaration|
-            # get all while loops in file
-            declaration.statement.each do |stmt|
-              if stmt.type.While?
-                whiles.add_stuff(Item.new(stmt.name, stmt.type))
-              end
-              if stmt.type.For?
-                fors.add_stuff(Item.new(stmt.name, stmt.type))
+          ast.entities.each do |node|
+            node.Declaration? or next
+            node.declarators.each do |declaration|
+              # get all while loops in file
+              declaration.statement.each do |stmt|
+                if stmt.type.While?
+                  whiles.add_stuff(Item.new(stmt.name, stmt.type))
+                end
+                if stmt.type.For?
+                  fors.add_stuff(Item.new(stmt.name, stmt.type))
+                end
               end
             end
           end
 
+          #ast.entities.each do |declaration|
+          #  # get all while loops in file
+          #  declaration.statement.each do |stmt|
+          #    if stmt.type.While?
+          #      whiles.add_stuff(Item.new(stmt.name, stmt.type))
+          #    end
+          #    if stmt.type.For?
+          #      fors.add_stuff(Item.new(stmt.name, stmt.type))
+          #    end
+          #  end
+          #end
+
           # store here (per exposed file)
 
-          result.add_stuff(whiles)
-          result.add_stuff(fors)
+          result.add_stuff(whiles) unless whiles.stuff.size == 0
+          result.add_stuff(fors)   unless fors.stuff.size   == 0
 
-          results << result
+          results << result unless result.stuff.size == 0
         end
 
         results
@@ -106,12 +121,12 @@ module Looper
       #
       # project - the String name of the Project.
       #
-      # Returns an Array of Results objects containing items.
-      def peek(project)
-        if storage.list_exists?(project)
+      # Returns nothing
+      def peek(name)
+        if storage.list_exists?(name)
           project = Project.find(name)
           src     = project.items.detect { |item| item.name == SRC }
-          files   = find src
+          files   = find src.value
           exposed = expose files
 
           no_whiles = 0
@@ -127,7 +142,13 @@ module Looper
           end
 
           no_loops  = no_whiles + no_fors
-          add_item(project, "loos", "#{no_loops}")
+
+          if no_loops == 0
+            output "#{red("We couldn't find anything to report for #{name}.")}"
+          else
+            add_item(project, "no_loops", "#{no_loops}")
+            output "#{cyan("Looper!")} Took a peek at the project called #{yellow(name)}."
+          end
 
         else
           output "#{red("We couldn't find that project.")}"
