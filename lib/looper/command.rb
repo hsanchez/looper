@@ -231,6 +231,8 @@ module Looper
         return show_storage      if command == 'storage'
         return version           if command == "-v"
         return version           if command == "--version"
+        # TODO to fix this error: NameError: undefined local variable or method `help' for Looper::Command:Class.
+        # the method is defined, so I dont know what is happening.
         return help              if command == 'help'
         return help              if command[0] == 45 || command[0] == '-' # any - dash options are pleas for help
 
@@ -375,22 +377,22 @@ module Looper
           text = %{
           - looper: help ---------------------------------------------------
 
-          looper                            ;display high-level overview
-          looper all                        ;show all items in all lists
-          looper edit                       ;edit the looper JSON file in $EDITOR
-          looper help                       ;this help text
-          looper version                    ;show looper's current version.
-          looper storage                    ;shows which storage backend you're using
+          looper                            display high-level overview
+          looper all                        show all items in all lists
+          looper edit                       edit the looper JSON file in $EDITOR
+          looper help                       this help text
+          looper version                    show looper's current version.
+          looper storage                    shows which storage backend you're using
 
-          looper <project>                  ;create a new project
-          looper <project>                  ;show items for a project
-          looper <project> delete           ;deletes a project
-          looper <project> src <value>      ;assigns a new source for a project
-          looper <project> peek             ;take a peek at project
+          looper <project>                  create a new project
+          looper <project>                  show items for a project
+          looper <project> delete           deletes a project
+          looper <project> src <value>      assigns a new source for a project
+          looper <project> peek             take a peek at project
 
-          looper <project> <name> open      ;open all item's content in in $EDITOR for a project
-          looper <project> <name> delete    ;deletes an item in a project
-          looper <project> <name>           ;copy item's value to clipboard
+          looper <project> <name> open      open all item's content in in $EDITOR for a project
+          looper <project> <name> delete    deletes an item in a project
+          looper <project> <name>           copy item's value to clipboard
 
           all other documentation is located at:
             https://github.com/hsanchez/looper
