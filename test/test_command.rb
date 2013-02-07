@@ -96,9 +96,9 @@ class TestCommand < Test::Unit::TestCase
     assert_match /a new project called newproject.* src in newproject/, command('newproject src blah/blah')
   end
 
-  def test_project_peek_nothing_to_report
+  def test_project_peek
     command("newproject src #{C_DIR}")
-    assert_match /couldn't find anything to report for newproject.*/, command('newproject peek')
+    assert_match /no_loops in newproject is.*/, command('newproject peek')
   end
 
 end

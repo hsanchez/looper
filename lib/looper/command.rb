@@ -80,31 +80,16 @@ module Looper
           ast       = C.parse(source)
 
           ast.entities.each do |node|
-            node.Declaration? or next
-            node.declarators.each do |declaration|
-              # get all while loops in file
-              declaration.statement.each do |stmt|
-                if stmt.type.While?
-                  whiles.add_stuff(Item.new(stmt.name, stmt.type))
-                end
-                if stmt.type.For?
-                  fors.add_stuff(Item.new(stmt.name, stmt.type))
-                end
+            node.FunctionDef? or next
+            node.def.stmts.each do |stmt|
+              if stmt.While?
+                whiles.add_stuff(Item.new("while", "while"))
+              elsif stmt.For?
+                fors.add_stuff(Item.new("fors", "for"))
               end
             end
-          end
 
-          #ast.entities.each do |declaration|
-          #  # get all while loops in file
-          #  declaration.statement.each do |stmt|
-          #    if stmt.type.While?
-          #      whiles.add_stuff(Item.new(stmt.name, stmt.type))
-          #    end
-          #    if stmt.type.For?
-          #      fors.add_stuff(Item.new(stmt.name, stmt.type))
-          #    end
-          #  end
-          #end
+          end
 
           # store here (per exposed file)
 
@@ -133,11 +118,13 @@ module Looper
           no_fors   = 0
 
           exposed.each do |result|
-            if WHILES == result.name
-              no_whiles += result.stuff.size
-            end
-            if FORS == result.name
-              no_fors   += result.stuff.size
+            result.stuff.each do |st|
+              if WHILES == st.name
+                no_whiles += st.stuff.size
+              end
+              if FORS == st.name
+                no_fors   += st.stuff.size
+              end
             end
           end
 
@@ -146,7 +133,7 @@ module Looper
           if no_loops == 0
             output "#{red("We couldn't find anything to report for #{name}.")}"
           else
-            add_item(project, "no_loops", "#{no_loops}")
+            add_item(name, "no_loops", "#{no_loops}")
             output "#{cyan("Looper!")} Took a peek at the project called #{yellow(name)}."
           end
 
@@ -191,17 +178,17 @@ module Looper
 
       # Public: add a new Item to a Project.
       #
-      # project  - the String name of the Project to associate with this Item
-      # name     - the String name of the Item
-      # value    - the String value of the Item
+      # project_name  - the String name of the Project to associate with this Item
+      # name          - the String name of the Item
+      # value         - the String value of the Item
       #
       # Example
       #
       #   Commands.add_item("Bind","no_whiles","30000")
       #
       # Returns the newly created Item.
-      def add_item(project,name,value)
-        project = Project.find(project)
+      def add_item(project_name,name,value)
+        project = Project.find(project_name)
         project.add_item(Item.new(name,value))
         output "#{cyan("Looper!")} #{yellow(name)} in #{yellow(project.name)} is #{yellow(value)}. Got it."
         save
