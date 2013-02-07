@@ -47,15 +47,15 @@ class TestCommand < Test::Unit::TestCase
   end
 
   def test_help
-    #assert_match 'looper help', command('help')
+    assert_match 'looper help', command('help')
     assert_match 'looper help', command('-h')
-    #assert_match 'looper help', command('--help')
+    assert_match 'looper help', command('--help')
   end
 
-  #def test_noop_options
-  #  assert_match 'looper help', command('--anything')
-  #  assert_match 'looper help', command('-d')
-  #end
+  def test_noop_options
+    assert_match 'looper help', command('--anything')
+    assert_match 'looper help', command('-d')
+  end
 
 
 end

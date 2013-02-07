@@ -342,68 +342,69 @@ module Looper
           output "#{yellow(item_name)} #{red("not found in")} #{yellow(list_name)}"
         end
 
-        # Public: save in-memory data to disk.
-        #
-        # Returns whether or not data was saved.
-        def save
-          storage.save
+      end
+
+
+      # Public: save in-memory data to disk.
+      #
+      # Returns whether or not data was saved.
+      def save
+        storage.save
+      end
+
+
+      # Public: the version of looper that you're currently running.
+      #
+      # Returns a String identifying the version number.
+      def version
+        output "You're running looper #{Looper::VERSION}. Congratulations!"
+      end
+
+
+      # Public: launches JSON file in an editor for you to edit manually.
+      #
+      # Returns nothing.
+      def edit
+        if storage.respond_to?("json_file")
+          output "#{cyan("Looper!")} #{Platform.edit(storage.json_file)}"
+        else
+          output "This storage backend does not store #{cyan("Looper!")} data on your computer"
         end
+      end
 
 
-        # Public: the version of looper that you're currently running.
-        #
-        # Returns a String identifying the version number.
-        def version
-          output "You're running looper #{Looper::VERSION}. Congratulations!"
-        end
-
-
-        # Public: launches JSON file in an editor for you to edit manually.
-        #
-        # Returns nothing.
-        def edit
-          if storage.respond_to?("json_file")
-            output "#{cyan("Looper!")} #{Platform.edit(storage.json_file)}"
-          else
-            output "This storage backend does not store #{cyan("Looper!")} data on your computer"
-          end
-        end
-
-
-        # Public: prints all the commands of looper.
-        #
-        # Returns nothing.
-        def help
-          text = %{
+      # Public: prints all the commands of looper.
+      #
+      # Returns nothing.
+      def help
+        text = %{
           - looper: help ---------------------------------------------------
 
-          looper                            display high-level overview
-          looper all                        show all items in all lists
-          looper edit                       edit the looper JSON file in $EDITOR
-          looper help                       this help text
-          looper version                    show looper's current version.
-          looper storage                    shows which storage backend you're using
+          looper                            ;display high-level overview
+          looper all                        ;show all items in all lists
+          looper edit                       ;edit the looper JSON file in $EDITOR
+          looper help                       ;this help text
+          looper version                    ;show looper's current version.
+          looper storage                    ;shows which storage backend you're using
 
-          looper <project>                  create a new project
-          looper <project>                  show items for a project
-          looper <project> delete           deletes a project
-          looper <project> src <value>      assigns a new source for a project
-          looper <project> peek             take a peek at project
+          looper <project>                  ;create a new project
+          looper <project>                  ;show items for a project
+          looper <project> delete           ;deletes a project
+          looper <project> src <value>      ;assigns a new source for a project
+          looper <project> peek             ;take a peek at project
 
-          looper <project> <name> open      open all item's content in in $EDITOR for a project
-          looper <project> <name> delete    deletes an item in a project
-          looper <project> <name>           copy item's value to clipboard
+          looper <project> <name> open      ;open all item's content in in $EDITOR for a project
+          looper <project> <name> delete    ;deletes an item in a project
+          looper <project> <name>           ;copy item's value to clipboard
 
           all other documentation is located at:
             https://github.com/hsanchez/looper
         }.gsub(/^ {8}/, '') # strip the first eight spaces of every line
 
-          output text
+        output text
 
-        end
-
-
+      end
     end
   end
 end
-end
+#end
