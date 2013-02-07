@@ -1,7 +1,7 @@
 # coding: utf-8
 
 require 'helper'
-# Intercept STDOUT and collect it
+# Intercept STDOUT and capture its output
 class Looper::Command
 
   def self.capture_output
@@ -55,6 +55,38 @@ class TestCommand < Test::Unit::TestCase
   def test_noop_options
     assert_match 'looper help', command('--anything')
     assert_match 'looper help', command('-d')
+  end
+
+  def test_edit
+    Looper::Platform.stubs(:system).returns('')
+    assert_match 'Make your edits', command('edit')
+  end
+
+  def test_project_all
+    cmd = command('all')
+    assert_match /urls/,    cmd
+    assert_match /huascar/,  cmd
+  end
+
+  def test_version_short
+    assert_match /#{Looper::VERSION}/, command('-v')
+  end
+
+  def test_version_long
+    assert_match /#{Looper::VERSION}/, command('--version')
+  end
+
+  def test_delete_item_project_not_exist
+    assert_match /couldn't find that project\./, command('urlz huascar delete')
+  end
+
+  def test_show_storage
+    Looper::Config.any_instance.stubs(:attributes).returns('backend' => 'json')
+    assert_match /You're currently using json/, command('storage')
+  end
+
+  def test_project_creation
+    assert_match /a new list called newproject/, command('newproject')
   end
 
 

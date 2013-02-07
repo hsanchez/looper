@@ -306,6 +306,31 @@ module Looper
       end
 
 
+      # Public: remove a named Item.
+      #
+      # project_name - the String name of the Project.
+      # name         - the String name of the Item.
+      #
+      # Example
+      #
+      #   Commands.delete_item("a-project-name", "an-item-name")
+      #
+      # Returns nothing.
+      def delete_item(project_name,name)
+        if storage.list_exists?(project_name)
+          project = Project.find(project_name)
+          if project.delete_item(name)
+            output "#{cyan("Looper!")} #{yellow(name)} is gone forever."
+            save
+          else
+            output "#{yellow(name)} #{red("not found in")} #{yellow(project_name)}"
+          end
+        else
+          output "We couldn't find that project."
+        end
+      end
+
+
 
       # Public: prints a tidy overview of your Projects in descending order of
       # number of Items.
