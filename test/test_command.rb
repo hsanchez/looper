@@ -107,4 +107,8 @@ class TestCommand < Test::Unit::TestCase
     files = Looper::Command.find(File.expand_path('..', '..'), 'rb')
     assert files.include?(File.expand_path(__FILE__))
   end
+  
+  def test_expose_count
+    files = [File.join(File.dirname(__FILE__), 'examples', 'toy.c')]
+  end
 end
