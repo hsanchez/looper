@@ -1,6 +1,7 @@
 # coding: utf-8
 
 require 'helper'
+require 'debugger'
 # Intercept STDOUT and capture its output
 class Looper::Command
 
@@ -102,5 +103,8 @@ class TestCommand < Test::Unit::TestCase
     assert_match(/no_loops in newproject is.*/, command('newproject peek'))
   end
 
-
+  def test_find
+    files = Looper::Command.find(File.expand_path('..', '..'), 'rb')
+    assert files.include?(File.expand_path(__FILE__))
+  end
 end
