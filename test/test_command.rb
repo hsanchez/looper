@@ -1,6 +1,7 @@
 # coding: utf-8
 
 require 'helper'
+require 'debugger'
 # Intercept STDOUT and capture its output
 class Looper::Command
 
@@ -42,7 +43,7 @@ class TestCommand < Test::Unit::TestCase
     storage = Looper::Storage
     storage.stubs(:lists).returns([])
     Looper::Command.stubs(:storage).returns(storage)
-    assert_match /have anything yet!/, command(nil)
+    assert_match(/have anything yet!/, command(nil))
   end
 
   def test_overview
@@ -67,38 +68,47 @@ class TestCommand < Test::Unit::TestCase
 
   def test_project_all
     cmd = command('all')
-    assert_match /urls/,    cmd
-    assert_match /huascar/,  cmd
+    assert_match(/urls/, cmd)
+    assert_match(/huascar/, cmd)
   end
 
   def test_version_short
-    assert_match /#{Looper::VERSION}/, command('-v')
+    assert_match(/#{Looper::VERSION}/, command('-v'))
   end
 
   def test_version_long
-    assert_match /#{Looper::VERSION}/, command('--version')
+    assert_match(/#{Looper::VERSION}/, command('--version'))
   end
 
   def test_delete_item_project_not_exist
-    assert_match /couldn't find that project\./, command('urlz huascar delete')
+    assert_match(/couldn't find that project\./, command('urlz huascar delete'))
   end
 
   def test_show_storage
     Looper::Config.any_instance.stubs(:attributes).returns('backend' => 'json')
-    assert_match /You're currently using json/, command('storage')
+    assert_match(/You're currently using json/, command('storage'))
   end
 
   def test_project_creation
-    assert_match /a new project called newproject/, command('newproject')
+    assert_match(/a new project called newproject/, command('newproject'))
   end
 
   def test_project_assigns_source
-    assert_match /a new project called newproject.* src in newproject/, command('newproject src blah/blah')
+    assert_match(/a new project called newproject.* src in newproject/,
+                  command('newproject src blah/blah'))
   end
 
   def test_project_peek
     command("newproject src #{C_DIR}")
-    assert_match /no_loops in newproject is.*/, command('newproject peek')
+    assert_match(/no_loops in newproject is.*/, command('newproject peek'))
   end
 
+  def test_find
+    files = Looper::Command.find(File.expand_path('..', '..'), 'rb')
+    assert files.include?(File.expand_path(__FILE__))
+  end
+  
+  def test_expose_count
+    files = [File.join(File.dirname(__FILE__), 'examples', 'toy.c')]
+  end
 end

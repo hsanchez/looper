@@ -278,7 +278,7 @@ module Looper
       def open(project, major)
         if storage.list_exists?(project)
           if major
-            item = storage.items.detect { |item| item.name == major }
+            item = storage.items.detect { |i| i.name == major }
             output "#{cyan("Looper!")} We just opened #{yellow(Platform.open(item))} for you."
           else
             output "#{red("We couldn't find that item.")}"
