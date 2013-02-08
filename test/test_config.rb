@@ -14,7 +14,7 @@ class TestConfig < Test::Unit::TestCase
 
   def test_config_bootstrap
     @config.bootstrap
-    assert_equal ({:backend => 'json'}), @config.attributes
+    assert_equal({:backend => 'json'}, @config.attributes)
   end
 
   def test_attributes
